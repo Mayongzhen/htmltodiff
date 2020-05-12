@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <link rel="stylesheet" type="text/css" href="./css/all-base.css">
+    <link rel="stylesheet" type="text/css" href="./css/publicstyle-v2.css">
+    <script src="./js/jquery-3.1.0.min.js"></script>
+     <!--ToolMain02-end-->
+	<script src="./js/diff/LineDiff.js"></script>
+	<script src="./js/diff/EditSet.js"></script>
+	<script src="./js/diff/LineUtils.js"></script>
+	<script src="./js/diff/Diff.js"></script>
+	<script src="./js/diff/DiffFormatter.js"></script>
+	<script src="./js/diff/LineFormatter.js"></script>
+	<script src="./js/diff/AnchorIterator.js"></script>
+	<script src="./js/diff/highlight.pack.js"></script>
+<style>
+.clear { clear:both; }
+.auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+.pr {
+    position: relative;
+}
+.clearfix {
+    *zoom: 1;
+}
+.GuoLvCbtn {
+    display: inline-block;
+    float: right;
+}
+.wwlr-l {
+    padding: 10px;
+}
+.wwlr {
+    width: 1160px;
+    padding: 20px;
+}
+.JsTxtW-r .JsTxtCo {
+    width: 548px;
+}
+.h200 {
+    height: 400px;
+}
+.wrapper {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    height: auto;
+}  
+.hljs-line-numbers {
+        text-align: right;
+        border-right: 1px solid #ccc;
+        color: #999;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+
+    .left {
+        float: left;
+        width: 50%;
+    }
+
+    .right {
+        float: right;
+        width: 49%;
+    }
+
+    .scroll {
+        height: 600px;
+        overflow-x: scroll;
+        overflow-y: auto;
+    }
+
+    .inserted {
+        background-color: #9E9;
+        min-width: 100%;
+        display: inline-block;
+    }
+
+    .deleted {
+        background-color: #E99;
+        min-width: 100%;
+        display: inline-block;
+    }
+
+    .modified {
+        background-color: #FD8;
+        min-width: 100%;
+        display: inline-block;
+    }
+
+    .modified-light {
+        background-color: #fcffb6;
+        /*min-width: 100%;*/
+        /*display: inline-block;*/
+    }
+
+    .padding {
+        background-color: lightgray;
+        min-width: 100%;
+        display: inline-block;
+    }
+   .ie{   
+       _position: absolute;  
+       _clear: both;   
+       _top:expression(eval(document.compatMode &&   
+               document.compatMode=='CSS1Compat') ?   
+               documentElement.scrollTop   
+               +(documentElement.clientHeight-this.clientHeight) - 1   
+               : document.body.scrollTop   
+               +(document.body.clientHeight-this.clientHeight) - 1); 
+    }
+    .fl {
+    float: left;
+    display: inline-block;
+}
+    .JsTxtW-r {
+    width: 570px;
+}
+    /*(sublime) .hljs{display:block;overflow-x:auto;padding:0.5em;background:#23241f}.hljs,.hljs-tag,.hljs-subst{color:#f8f8f2}.hljs-strong,.hljs-emphasis{color:#a8a8a2}.hljs-bullet,.hljs-quote,.hljs-number,.hljs-regexp,.hljs-literal,.hljs-link{color:#ae81ff}.hljs-code,.hljs-title,.hljs-section,.hljs-selector-class{color:#a6e22e}.hljs-strong{font-weight:bold}.hljs-emphasis{font-style:italic}.hljs-keyword,.hljs-selector-tag,.hljs-name,.hljs-attr{color:#f92672}.hljs-symbol,.hljs-attribute{color:#66d9ef}.hljs-params,.hljs-class .hljs-title{color:#f8f8f2}.hljs-string,.hljs-type,.hljs-built_in,.hljs-builtin-name,.hljs-selector-id,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-addition,.hljs-variable,.hljs-template-variable{color:#e6db74}.hljs-comment,.hljs-deletion,.hljs-meta{color:#75715e}*/
+    .hljs{display:block;overflow-x:auto;padding:0.5em;background:white;color:black}.hljs-comment,.hljs-quote,.hljs-variable{color:#008000}.hljs-keyword,.hljs-selector-tag,.hljs-built_in,.hljs-name,.hljs-tag{color:#00f}.hljs-string,.hljs-title,.hljs-section,.hljs-attribute,.hljs-literal,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-addition{color:#a31515}.hljs-deletion,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-meta{color:#2b91af}.hljs-doctag{color:#808080}.hljs-attr{color:#f00}.hljs-symbol,.hljs-bullet,.hljs-link{color:#00b0e8}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
+</style>
+    <title>htmltodiff功能</title>
+</head>
+<body>
+<!--ToolMain02-begin-->
+<div class="wrapper"> 
+    <div class='auto'>
+        <!--GuoLvWrap-begin--> 
+      	<div class="clearfix pr" id="txtcontents">
+            <div class="pr JsTxtW-r fl">
+                <textarea class="JsTxtCo bor-a1s h200 WrapHid wwlr-l" id="original" style="">
+                </textarea> <b class="search-hint CentHid">文本一</b>
+            </div> 
+            <div class="pr JsTxtW-r ml20 fl">
+                <textarea class="JsTxtCo bor-a1s h200 WrapHid wwlr-l" id="edited" style="">
+                </textarea><b class="search-hint CentHid">文本二</b>
+            </div> 
+        </div>
+        <div class="pt10 clearfix">
+            <div class="GuoLvCbtn">
+            <input type="button" id="diffuse" value="开始比较" style="background-color: #55a7e3;
+    color: #fff;
+    font-family: 'Microsoft YaHei';" />
+            <input type="button" value="清空" id="clear" style="background-color: #55a7e3;
+    color: #fff;
+    font-family: 'Microsoft YaHei';"  /></div>
+        </div>
+
+        <!--GuoLvWrap-end-->
+        <div class="clearfix pt10" id="result">
+            <div class="pr JsTxtW-r fl">
+                <pre id="original_result"><code class=""></code></pre>
+            </div> 
+            <div class="pr JsTxtW-r ml20 fl">
+                <pre id="edited_result"><code class=""></code></pre>
+            </div> 
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+jQuery(function () {
+    $('#diffuse').on("click", function () {
+        if ($('#original').val() == '' || $('#edited').val() == '') {
+            alert('文本不可为空，请重新输入');
+            return;
+        }
+        $('#original_result code,#edited_result code').html('<img src="./image/load.gif">');
+        setTimeout(function () { doDiff(); }, 500);
+    });
+
+    $('#clear').on('click', function () {
+        clear();
+    });
+
+})
+function clear() {
+    $('#original,#edited').val('');
+    $('#original_result code,#edited_result code').html('');
+    $('#original_result code:eq(0),#edited_result code:eq(0)').remove();
+    $('html,body').animate({ scrollTop: 0 }, 1);
+}
+function doDiff() {
+
+        var diff = new SourceDiff.Diff(true);
+        var formatter = new SourceDiff.DiffFormatter(diff);
+
+        var text1 = $('#original').val();
+        var text2 = $('#edited').val();
+
+        var chag = 0, add = 0, del = 0;
+        var results = formatter.formattedDiff(text1, text2);
+
+        var adds = results[3].added.all();
+        var dels = results[3].deleted.all();
+        var cha = arrayIntersection(adds, dels);
+
+        $(".hljs-line-numbers").remove();
+        $('#original_result code').html(results[0]);
+        $('#edited_result code').html(results[1]);
+
+
+        var pre = $('pre code');
+        for (var i = 0; i < pre.length; i++) {
+            hljs.highlightBlock(pre[i]);
+        }
+
+        var _line = 0;
+        $('pre code').each(function () {
+            var lines = $(this).html().split('<br>').length - 1;
+            _line = lines;
+            $(this).before('<code class="hljs hljs-line-numbers" style="float: left;"></code>');
+            var html = $(this).prev('.hljs-line-numbers');
+            for (i = 1; i <= lines; i++) {
+                if (i == lines)
+                    html.html(html.html() + (i + '.'));
+                else
+                    html.html(html.html() + (i + '.<br>'));
+            }
+        });
+    }
+function arrayIntersection(a, b) {
+    var ai = 0, bi = 0;
+    var result = new Array();
+
+    while (ai < a.length && bi < b.length) {
+        if (a[ai] < b[bi]) { ai++; }
+        else if (a[ai] > b[bi]) { bi++; }
+        else /* they're equal */
+        {
+            result.push(a[ai]);
+            ai++;
+            bi++;
+        }
+    }
+
+    return result;
+}
+function arrayIntersect(a, b) {
+    return jQuery.merge(jQuery.grep(a, function (i) {
+        return jQuery.inArray(i, b) == -1;
+    }), jQuery.grep(b, function (i) {
+        return jQuery.inArray(i, a) == -1;
+    })
+    );
+};
+</script>
+</body>
+</html>
